@@ -1,4 +1,4 @@
-# Crea el repositorio publico dtdanieldlc/reto-bi y sube el proyecto. Resultado en scripts\subir_log.txt
+﻿# Crea el repositorio publico dtdanieldlc/reto-bi y sube el proyecto. Resultado en scripts\subir_log.txt
 $raiz = Split-Path -Parent $PSScriptRoot
 $log = Join-Path $PSScriptRoot 'subir_log.txt'
 "=== Subida $(Get-Date -Format 'yyyy-MM-dd HH:mm:ss') ===" | Out-File $log -Encoding utf8
