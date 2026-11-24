@@ -1,0 +1,19 @@
+# credenciales
+.env
+backend/.env
+# dependencias y compilados
+node_modules/
+frontend/dist/
+__pycache__/
+*.pyc
+.venv/
+venv/
+.pytest_cache/
+# sistema / editores
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+# logs de los scripts de Windows
+scripts/preparar_log.txt
+scripts/subir_log.txt
