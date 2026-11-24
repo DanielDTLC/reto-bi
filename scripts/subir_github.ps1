@@ -1,4 +1,4 @@
-﻿# Crea el repositorio publico dtdanieldlc/reto-bi y sube el proyecto. Resultado en scripts\subir_log.txt
+﻿# Sube el proyecto al repositorio DanielDTLC/reto-bi y sube el proyecto. Resultado en scripts\subir_log.txt
 $raiz = Split-Path -Parent $PSScriptRoot
 $log = Join-Path $PSScriptRoot 'subir_log.txt'
 "=== Subida $(Get-Date -Format 'yyyy-MM-dd HH:mm:ss') ===" | Out-File $log -Encoding utf8
@@ -6,8 +6,7 @@ function L($m) { $m | Out-File $log -Append -Encoding utf8 }
 Set-Location $raiz
 
 $git = (Get-Command git -ErrorAction SilentlyContinue).Source
-$gh = (Get-Command gh -ErrorAction SilentlyContinue).Source
-if (-not $gh -and (Test-Path 'C:\Program Files\GitHub CLI\gh.exe')) { $gh = 'C:\Program Files\GitHub CLI\gh.exe' }
+$gh = $null
 L "git: $git"; L "gh: $gh"
 if (-not $git) { L 'FALTA_GIT'; exit 1 }
 L "usuario git: $(& git config --global user.name) <$(& git config --global user.email)>"
@@ -21,7 +20,7 @@ $msg = "Reto BI: dashboard decisional Catalogo en foco`n`nCo-Authored-By: Claude
 & git commit -q -m $msg 2>&1 | ForEach-Object { L $_ }
 & git branch -M main 2>&1 | Out-Null
 
-$url = 'https://github.com/dtdanieldlc/reto-bi'
+$url = 'https://github.com/DanielDTLC/reto-bi'
 $creado = $false
 if ($gh) {
   & $gh auth status 2>&1 | ForEach-Object { L "gh: $_" }
@@ -31,7 +30,8 @@ if ($gh) {
   }
 }
 if (-not $creado) {
-  if (-not (& git remote)) { & git remote add origin "$url.git" }
+  if (& git remote) { & git remote set-url origin "$url.git" } else { & git remote add origin "$url.git" }
+  L "remoto: $(& git remote get-url origin)"
   L 'intentando git push (el repositorio debe existir en GitHub)...'
   & git push -u origin main 2>&1 | ForEach-Object { L $_ }
   if ($LASTEXITCODE -eq 0) { $creado = $true }
